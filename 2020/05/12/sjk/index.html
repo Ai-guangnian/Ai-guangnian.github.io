@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,7 +16,9 @@
 
   <!-- 页面元数据 -->
   
-    <title>标签：TCP/IP - Ai-guangnian</title>
+    <title>事务隔离 - Ai-guangnian</title>
+  
+    <meta name="keywords" content="SQL,MYSQL,数据库">
   
   
 
@@ -329,25 +329,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -357,11 +344,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/2020/05/12/WL/">
-      网络
+  <h1 class="title">
+    <a href="/2020/05/12/sjk/">
+      事务隔离
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -384,9 +371,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/' rel="nofollow">
+    <a href='/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>计算机网络</p>
+      <p>数据库</p>
     </a>
   </div>
 
@@ -408,11 +395,6 @@
 
             
           
-            
-              
-
-            
-          
         </div>
         
           <hr>
@@ -422,138 +404,70 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>TCP/IP 协议分层模型</strong></p>
-<p>物理层将二进制的0和1和电压高低，光的闪灭和电波的强弱信号进行转换</p>
-<p>链路层代表驱动</p>
-<p>网络层</p>
-<ul>
-<li>使用 IP 协议，IP 协议基于 IP 转发分包数据</li>
-<li>IP 协议是个不可靠协议，不会重发</li>
-<li>IP 协议发送失败会使用ICMP 协议通知失败</li>
-<li>ARP 解析 IP 中的 MAC 地址，MAC 地址由网卡出厂提供</li>
-<li>IP 还隐含链路层的功能，不管双方底层的链路层是啥，都能通信</li>
-</ul>
-<p>传输层</p>
-<ul>
-<li>TCP 协议面向有连接，能正确处理丢包，传输顺序错乱的问题，但是为了建立与断开连接，需要至少7次的发包收包，资源浪费</li>
-<li>UDP 面向无连接，不管对方有没有收到，如果要得到通知，需要通过应用层</li>
-<li>通用的 TCP 和 UDP 协议</li>
-</ul>
-<p>会话层以上分层</p>
-<ul>
-<li>TCP/IP 分层中，会话层，表示层，应用层集中在一起</li>
-<li>网络管理通过 SNMP 协议</li>
-</ul>
-<hr>
-<p><strong>三次握手：</strong></p>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>脏读<br>当一个事务读取到另外一个事务修改但未提交的数据时，就可能发生脏读。<br>事务2修改了一行，但是没有提交，事务1读了这个没有提交的数据。<br>现在如果事务2回滚了刚才的修改或者做了另外的修改的话，事务1中查到的数据就是不正确的了，所以这条数据就是脏读。</p>
+<p>不可重复读<br>“不可重复读”现象发生在当执行SELECT 操作时没有获得读锁或者SELECT操作执行完后马上释放了读锁；另外一个事务对数据进行了更新，读到了不同的结果。<br>事务2提交成功，因此他对id为1的行的修改就对其他事务可见了。导致了事务1在此前读的age=1，第二次读的age=2，两次结果不一致,这就是不可重复读。</p>
+<p>幻读<br>“幻读”又叫”幻象读”,是’’不可重复读’’的一种特殊场景：当事务1两次执行’’SELECT … WHERE’’检索一定范围内数据的操作中间，事务2在这个表中创建了(如[[INSERT]])了一行新数据，这条新数据正好满足事务1的“WHERE”子句。</p>
 <ol>
-<li>客户端–发送带有SYN标志的数据包–一次握手–服务端</li>
-<li>服务端–发送带有SYN/ACK标志的数据包–二次握手–客户端</li>
-<li>客户端–发送带有带有ACK标志的数据包–三次握手–服务端</li>
-</ol>
-<p><strong>四次挥手：</strong></p>
-<ol>
-<li>客户端-发送一个FIN，用来关闭客户端到服务器的数据传送</li>
-<li>服务器-收到这个FIN，它发回一个ACK，确认序号为收到的序号加1 。和SYN一样，一个FIN将占用一个序号</li>
-<li>服务器-关闭与客户端的连接，发送一个FIN给客户端</li>
-<li>客户端-发回ACK报文确认，并将确认序号设置为收到序号加1</li>
+<li>脏读：指读到了其他事务未提交的数据。</li>
+<li>不可重复读：读到了其他事务已提交的数据(update)。</li>
+<li>不可重复读与幻读都是读到其他事务已提交的数据,但是它们针对点不同。</li>
+<li>不可重复读：update。</li>
+<li>幻读：delete，insert。</li>
 </ol>
 <hr>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/2020/05/12/WL/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+<p>MySQL中的四种事务隔离级别<br>未提交读<br>未提交读（READ UNCOMMITTED）是最低的隔离级别，在这种隔离级别下，如果一个事务已经开始写数据，则另外一个事务则不允许同时进行写操作，但允许其他事务读此行数据。</p>
+<p>已提交读<br>由于MySQL的InnoDB默认是使用的RR级别，所以我们先要将该session开启成RC级别，并且设置binlog的模式<br>SET session transaction isolation level read committed;<br>SET SESSION binlog_format = ‘ROW’;（或者是MIXED）<br>在已提交读（READ COMMITTED）级别中，读取数据的事务允许其他事务继续访问该行数据，但是未提交的写事务将会禁止其他事务访问该行，会对该写锁一直保持直到到事务提交。</p>
+<p>可重复读<br>在可重复读（REPEATABLE READS）是介于已提交读和可串行化之间的一种隔离级别(废话😅)，它是InnoDb的默认隔离级别，它是我这篇文章的重点讨论对象，所以在这里我先卖个关子,后面我会详细介绍。</p>
+<p>可串行化<br>可串行化（Serializable ）是高的隔离级别，它求在选定对象上的读锁和写锁保持直到事务结束后才能释放，所以能防住上诉所有问题，但因为是串行化的，所以效率较低。</p>
+<hr>
+<p>悲观锁与乐观锁</p>
+<p>我们前面说的在对象上加锁，是一种悲观锁机制。<br>有很多文章说可重复读的隔离级别防不了幻读，是认为可重复读会对读的行加锁，导致他事务修改不了这条数据，直到事务结束。<br>但是这种方案只能锁住数据行，如果有新的数据进来，是阻止不了的，所以会产生幻读。</p>
+<p>悲观锁<br>正如其名，它指的是对数据被外界（包括本系统当前的其他事务，以及来自外部系统的事务处理）修改持保守态度，因此，在整个数据处理过程中，将数据处于锁定状态。<br>读取数据时给加锁，其它事务无法修改这些数据。修改删除数据时也要加锁，其它事务无法读取这些数据。</p>
+<p>乐观锁<br>相对悲观锁而言，乐观锁机制采取了更加宽松的加锁机制。悲观锁大多数情况下依靠数据库的锁机制实现，以保证操作最大程度的独占性。<br>但随之而来的就是数据库性能的大量开销，特别是对长事务而言，这样的开销往往无法承受。<br>而乐观锁机制在一定程度上解决了这个问题。乐观锁，大多是基于数据版本（ Version ）记录机制实现。<br>何谓数据版本？即为数据增加一个版本标识，在基于数据库表的版本解决方案中，一般是通过为数据库表增加一个 “version” 字段来实现。读取出数据时，将此版本号一同读出，之后更新时，对此版本号加一。<br>此时，将提交数据的版本数据与数据库表对应记录的当前版本信息进行比对，如果提交的数据版本号大于数据库表当前版本号，则予以更新，否则认为是过期数据。<br>MySQL、ORACLE、PostgreSQL等都是使用了以乐观锁为理论基础的MVCC（多版本并发控制）来避免不可重复读和幻读,MVCC的实现没有固定的规范，每个数据库都会有不同的实现方式，这里讨论的是InnoDB的MVCC。</p>
+<hr>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
-
-  
-
-
-    
-  
-</div>
-<aside class='l_side'>
-  
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/Ai-guangnian/Ai-guangnian.github.io/aa/OIP.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">Ai-guangnian</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
+      <blockquote>
         
           
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
           
         
           
-            <a href="https://mail.126.com/"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=http://ai-guangnian.github.io/2020/05/12/sjk/>http://ai-guangnian.github.io/2020/05/12/sjk/</a></p>
           
         
-          
-            <a href="https://github.com/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=389591088"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -563,73 +477,190 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
     
-  <header>
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
+        
+          height='64px'
+        ></div>
+      
     
-      <a href='categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
+        
+          height='64px'
+        ></div>
+      
     
-  </header>
+  </div>
+</section>
+
+  
 
 
-    <div class='content'>
-      <ul class="entry navigation">
+              
+            </div>
+          
+        </div>
         
-          <li><a class="flat-box"
-            title="/categories/Hello/" href="/categories/Hello/"
-            id="categoriesHello"
-            ><div class='name'>Hello</div><div class='badge'>(1)</div></a></li>
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
         
-          <li><a class="flat-box"
-            title="/categories/Java/" href="/categories/Java/"
-            id="categoriesJava"
-            ><div class='name'>Java</div><div class='badge'>(1)</div></a></li>
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-05-12T22:31:11+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年5月12日</p>
+  </a>
+</div>
+
         
-          <li><a class="flat-box"
-            title="/categories/hert/" href="/categories/hert/"
-            id="categorieshert"
-            ><div class='name'>杂文</div><div class='badge'>(1)</div></a></li>
+      
         
-          <li><a class="flat-box"
-            title="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"
-            id="categoriesE695B0E68DAEE5BA93"
-            ><div class='name'>数据库</div><div class='badge'>(4)</div></a></li>
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/SQL/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>SQL</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/MYSQL/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>MYSQL</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据库</p></a></div>
+
+
         
-          <li><a class="flat-box"
-            title="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"
-            id="categoriesE8AEA1E7AE97E69CBAE7BD91E7BB9C"
-            ><div class='name'>计算机网络</div><div class='badge'>(1)</div></a></li>
+      
         
-      </ul>
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://ai-guangnian.github.io/2020/05/12/sjk/&title=事务隔离 - Ai-guangnian&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://ai-guangnian.github.io/2020/05/12/sjk/&title=事务隔离 - Ai-guangnian&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
     </div>
   </section>
 
 
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/05/12/sjk%E8%BF%9E%E6%8E%A5/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>MYSQL连接</p>
+                <p class='content'>1.INNER JOIN（内连接）
+1234SELECT &lt;select_list&gt; FROM Table_A AINNER JOIN Table_B BON A.Key = B.K...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/05/12/shujuku/'>
+                <p class='title'>MYSQL和索引<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>==Why MySQL==
+
+在众多开源免费的关系型数据库系统中，MySQL有以下比较出众的优势：
+运行速度快
+易使用
+SQL语言支持
+移植性好
+功能丰富
+成本低廉
+
+==MySQL中myisa...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '事务隔离',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
   
 
   
     
     
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
 
 
-    <div class='content'>
-      <a href="/tags/HTTP/" style="font-size: 14px; color: #999">HTTP</a> <a href="/tags/Java/" style="font-size: 14px; color: #999">Java</a> <a href="/tags/MYSQL/" style="font-size: 24px; color: #555">MYSQL</a> <a href="/tags/SQL/" style="font-size: 20.67px; color: #6c6c6c">SQL</a> <a href="/tags/TCP-IP/" style="font-size: 14px; color: #999">TCP/IP</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 24px; color: #555">数据库</a> <a href="/tags/%E6%9D%82%E6%96%87/" style="font-size: 17.33px; color: #828282">杂文</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 14px; color: #999">网络</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -842,6 +873,60 @@
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "dogUA2FSKGTo029M1SEwGROT-MdYXbMMI",
+    appKey: "u0NdtQ8nvHoMdJPSYqm1LRxE",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 

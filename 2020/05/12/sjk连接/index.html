@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,7 +16,9 @@
 
   <!-- 页面元数据 -->
   
-    <title>标签：TCP/IP - Ai-guangnian</title>
+    <title>MYSQL连接 - Ai-guangnian</title>
+  
+    <meta name="keywords" content="SQL,MYSQL,数据库">
   
   
 
@@ -329,25 +329,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -357,11 +344,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/2020/05/12/WL/">
-      网络
+  <h1 class="title">
+    <a href="/2020/05/12/sjk%E8%BF%9E%E6%8E%A5/">
+      MYSQL连接
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -384,9 +371,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/' rel="nofollow">
+    <a href='/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>计算机网络</p>
+      <p>数据库</p>
     </a>
   </div>
 
@@ -408,11 +395,6 @@
 
             
           
-            
-              
-
-            
-          
         </div>
         
           <hr>
@@ -422,138 +404,69 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>TCP/IP 协议分层模型</strong></p>
-<p>物理层将二进制的0和1和电压高低，光的闪灭和电波的强弱信号进行转换</p>
-<p>链路层代表驱动</p>
-<p>网络层</p>
-<ul>
-<li>使用 IP 协议，IP 协议基于 IP 转发分包数据</li>
-<li>IP 协议是个不可靠协议，不会重发</li>
-<li>IP 协议发送失败会使用ICMP 协议通知失败</li>
-<li>ARP 解析 IP 中的 MAC 地址，MAC 地址由网卡出厂提供</li>
-<li>IP 还隐含链路层的功能，不管双方底层的链路层是啥，都能通信</li>
-</ul>
-<p>传输层</p>
-<ul>
-<li>TCP 协议面向有连接，能正确处理丢包，传输顺序错乱的问题，但是为了建立与断开连接，需要至少7次的发包收包，资源浪费</li>
-<li>UDP 面向无连接，不管对方有没有收到，如果要得到通知，需要通过应用层</li>
-<li>通用的 TCP 和 UDP 协议</li>
-</ul>
-<p>会话层以上分层</p>
-<ul>
-<li>TCP/IP 分层中，会话层，表示层，应用层集中在一起</li>
-<li>网络管理通过 SNMP 协议</li>
-</ul>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>1.INNER JOIN（内连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt; </span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br></pre></td></tr></table></figure>
+<p>2.LEFT JOIN（左连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt;</span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br></pre></td></tr></table></figure>
+<p>3.RIGHT JOIN（右连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt;</span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line"><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br></pre></td></tr></table></figure>
+<p>4.OUTER JOIN（外连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt;</span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line">FULL <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br></pre></td></tr></table></figure>
+
+<p>5.LEFT JOIN EXCLUDING INNER JOIN（左连接-内连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt; </span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br><span class="line"><span class="keyword">WHERE</span> B.<span class="keyword">Key</span> <span class="keyword">IS</span> <span class="literal">NULL</span></span><br></pre></td></tr></table></figure>
+
+<p>6.RIGHT JOIN EXCLUDING INNER JOIN（右连接-内连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt;</span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line"><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br><span class="line"><span class="keyword">WHERE</span> A.<span class="keyword">Key</span> <span class="keyword">IS</span> <span class="literal">NULL</span></span><br></pre></td></tr></table></figure>
+
+<p>7.OUTER JOIN EXCLUDING INNER JOIN（外连接-内连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt;</span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line">FULL <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br><span class="line"><span class="keyword">WHERE</span> A.<span class="keyword">Key</span> <span class="keyword">IS</span> <span class="literal">NULL</span> <span class="keyword">OR</span> B.<span class="keyword">Key</span> <span class="keyword">IS</span> <span class="literal">NULL</span></span><br></pre></td></tr></table></figure>
+
+
 <hr>
-<p><strong>三次握手：</strong></p>
-<ol>
-<li>客户端–发送带有SYN标志的数据包–一次握手–服务端</li>
-<li>服务端–发送带有SYN/ACK标志的数据包–二次握手–客户端</li>
-<li>客户端–发送带有带有ACK标志的数据包–三次握手–服务端</li>
-</ol>
-<p><strong>四次挥手：</strong></p>
-<ol>
-<li>客户端-发送一个FIN，用来关闭客户端到服务器的数据传送</li>
-<li>服务器-收到这个FIN，它发回一个ACK，确认序号为收到的序号加1 。和SYN一样，一个FIN将占用一个序号</li>
-<li>服务器-关闭与客户端的连接，发送一个FIN给客户端</li>
-<li>客户端-发回ACK报文确认，并将确认序号设置为收到序号加1</li>
-</ol>
-<hr>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/2020/05/12/WL/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
-
-  
-
-
-    
-  
-</div>
-<aside class='l_side'>
-  
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/Ai-guangnian/Ai-guangnian.github.io/aa/OIP.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">Ai-guangnian</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
+      <blockquote>
         
           
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
           
         
           
-            <a href="https://mail.126.com/"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=http://ai-guangnian.github.io/2020/05/12/sjk%E8%BF%9E%E6%8E%A5/>http://ai-guangnian.github.io/2020/05/12/sjk%E8%BF%9E%E6%8E%A5/</a></p>
           
         
-          
-            <a href="https://github.com/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=389591088"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -563,73 +476,179 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
     
-  <header>
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
+        
+          height='64px'
+        ></div>
+      
     
-      <a href='categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
+        
+          height='64px'
+        ></div>
+      
     
-  </header>
+  </div>
+</section>
+
+  
 
 
-    <div class='content'>
-      <ul class="entry navigation">
+              
+            </div>
+          
+        </div>
         
-          <li><a class="flat-box"
-            title="/categories/Hello/" href="/categories/Hello/"
-            id="categoriesHello"
-            ><div class='name'>Hello</div><div class='badge'>(1)</div></a></li>
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
         
-          <li><a class="flat-box"
-            title="/categories/Java/" href="/categories/Java/"
-            id="categoriesJava"
-            ><div class='name'>Java</div><div class='badge'>(1)</div></a></li>
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-05-12T22:36:27+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年5月12日</p>
+  </a>
+</div>
+
         
-          <li><a class="flat-box"
-            title="/categories/hert/" href="/categories/hert/"
-            id="categorieshert"
-            ><div class='name'>杂文</div><div class='badge'>(1)</div></a></li>
+      
         
-          <li><a class="flat-box"
-            title="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"
-            id="categoriesE695B0E68DAEE5BA93"
-            ><div class='name'>数据库</div><div class='badge'>(4)</div></a></li>
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/SQL/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>SQL</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/MYSQL/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>MYSQL</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据库</p></a></div>
+
+
         
-          <li><a class="flat-box"
-            title="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"
-            id="categoriesE8AEA1E7AE97E69CBAE7BD91E7BB9C"
-            ><div class='name'>计算机网络</div><div class='badge'>(1)</div></a></li>
+      
         
-      </ul>
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://ai-guangnian.github.io/2020/05/12/sjk%E8%BF%9E%E6%8E%A5/&title=MYSQL连接 - Ai-guangnian&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://ai-guangnian.github.io/2020/05/12/sjk%E8%BF%9E%E6%8E%A5/&title=MYSQL连接 - Ai-guangnian&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
     </div>
   </section>
 
 
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/05/12/%E7%B4%A2%E5%BC%95%E5%92%8CB-%E6%A0%91%E5%8E%9F%E7%90%86/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>索引和B+树原理</p>
+                <p class='content'>在 MySQL 中，主要有四种类型的索引，分别为：B-Tree 索引， Hash 索引， Fulltext 索引和 R-Tree 索引。B-Tree 索引是 MySQL 数据库中使用最为频繁的索...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/05/12/sjk/'>
+                <p class='title'>事务隔离<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>脏读当一个事务读取到另外一个事务修改但未提交的数据时，就可能发生脏读。事务2修改了一行，但是没有提交，事务1读了这个没有提交的数据。现在如果事务2回滚了刚才的修改或者做了另外的修改的话，事务1中...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'MYSQL连接',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
   
 
   
     
     
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
 
 
-    <div class='content'>
-      <a href="/tags/HTTP/" style="font-size: 14px; color: #999">HTTP</a> <a href="/tags/Java/" style="font-size: 14px; color: #999">Java</a> <a href="/tags/MYSQL/" style="font-size: 24px; color: #555">MYSQL</a> <a href="/tags/SQL/" style="font-size: 20.67px; color: #6c6c6c">SQL</a> <a href="/tags/TCP-IP/" style="font-size: 14px; color: #999">TCP/IP</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 24px; color: #555">数据库</a> <a href="/tags/%E6%9D%82%E6%96%87/" style="font-size: 17.33px; color: #828282">杂文</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 14px; color: #999">网络</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -842,6 +861,60 @@
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "dogUA2FSKGTo029M1SEwGROT-MdYXbMMI",
+    appKey: "u0NdtQ8nvHoMdJPSYqm1LRxE",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 

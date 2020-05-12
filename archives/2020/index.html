@@ -423,9 +423,605 @@
         
           
         
+          
+        
+          
+        
+          
+        
+          
+        
       
     
     
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/05/12/%E7%B4%A2%E5%BC%95%E5%92%8CB-%E6%A0%91%E5%8E%9F%E7%90%86/">
+      索引和B+树原理
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://Ai-guangnian.github.io" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/Ai-guangnian/Ai-guangnian.github.io/aa/OIP.jpg">
+    <p>Ai-guangnian</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>数据库</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年5月12日</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在 MySQL 中，主要有四种类型的索引，分别为：B-Tree 索引， Hash 索引， Fulltext 索引和 R-Tree 索引。<br>B-Tree 索引是 MySQL 数据库中使用最为频繁的索引类型，除了 Archive 存储引擎之外的其他所有的存储引擎都支持 B-Tree 索引。Archive 引擎直到 MySQL 5.1 才支持索引，而且只支持索引单个 AUTO_INCREMENT 列。<br>不仅仅在 MySQL 中是如此，实际上在其他的很多数据库管理系统中B-Tree 索引也同样是作为最主要的索引类型，这主要是因为 B-Tree 索引的存储结构在数据库的数据检索中有非常优异的表现。<br>一般来说， MySQL 中的 B-Tree 索引的物理文件大多都是以 Balance Tree 的结构来存储的，也就是所有实际需要的数据都存放于 Tree 的 Leaf Node(叶子节点) ，而且到任何一个 Leaf Node 的最短路径的长度都是完全相同的，所以我们大家都称之为 B-Tree 索引。<br>当然，可能各种数据库（或 MySQL 的各种存储引擎）在存放自己的 B-Tree 索引的时候会对存储结构稍作改造。如 Innodb 存储引擎的 B-Tree 索引实际使用的存储结构实际上是 B+Tree，也就是在 B-Tree 数据结构的基础上做了很小的改造，在每一个Leaf Node 上面出了存放索引键的相关信息之外，还存储了指向与该 Leaf Node 相邻的后一个 LeafNode 的指针信息（增加了顺序访问指针），这主要是为了加快检索多个相邻 Leaf Node 的效率考虑。<br>InnoDB是Mysql的默认存储引擎(Mysql5.5.5之前是MyISAM）</p>
+<hr>
+<p><strong>B-树、B+树概念</strong><br><em>B树</em><br>即二叉搜索树：</p>
+<ul>
+<li>所有非叶子结点至多拥有两个儿子（Left和Right）；</li>
+<li>所有结点存储一个关键字；</li>
+<li>非叶子结点的左指针指向小于其关键字的子树，右指针指向大于其关键字的子树；</li>
+</ul>
+<p> <em>B-树</em><br>是一种多路搜索树（并不是二叉的）：</p>
+<ul>
+<li>定义任意非叶子结点最多只有M个儿子；且M&gt;2；</li>
+<li>根结点的儿子数为[2, M]；</li>
+<li>除根结点以外的非叶子结点的儿子数为[M/2, M]；</li>
+<li>每个结点存放至少M/2-1（取上整）和至多M-1个关键字；（至少2个关键字）</li>
+<li>非叶子结点的关键字个数=指向儿子的指针个数-1；</li>
+<li>非叶子结点的关键字：K[1], K[2], …, K[M-1]；且K[i] &lt; K[i+1]；</li>
+<li>非叶子结点的指针：P[1], P[2], …, P[M]；其中P[1]指向关键字小于K[1]的子树，P[M]指向关键字大于K[M-1]的子树，其它P[i]指向关键字属于(K[i-1], K[i])的子树；</li>
+<li>所有叶子结点位于同一层；</li>
+</ul>
+<p>B-树的搜索，从根结点开始，对结点内的关键字（有序）序列进行二分查找，如果命中则结束，否则进入查询关键字所属范围的儿子结点；重复，直到所对应的儿子指针为空，或已经是叶子结点；</p>
+<p>B-树的特性：</p>
+<ul>
+<li>关键字集合分布在整颗树中；</li>
+<li>任何一个关键字出现且只出现在一个结点中；</li>
+<li>搜索有可能在非叶子结点结束；</li>
+<li>其搜索性能等价于在关键字全集内做一次二分查找；</li>
+<li>自动层次控制；</li>
+</ul>
+<p>由于限制了除根结点以外的非叶子结点，至少含有M/2个儿子，确保了结点的至少利用率。<br>所以B-树的性能总是等价于二分查找（与M值无关），也就没有B树平衡的问题；<br>由于M/2的限制，在插入结点时，如果结点已满，需要将结点分裂为两个各占M/2的结点；删除结点时，需将两个不足M/2的兄弟结点合并；</p>
+<p><em>B+树</em><br>B+树是B-树的变体，也是一种多路搜索树：</p>
+<ul>
+<li>其定义基本与B-树同，除了：</li>
+<li>非叶子结点的子树指针与关键字个数相同；</li>
+<li>非叶子结点的子树指针P[i]，指向关键字值属于[K[i], K[i+1])的子树（B-树是开区间）；</li>
+<li>为所有叶子结点增加一个链指针；</li>
+<li>所有关键字都在叶子结点出现；</li>
+</ul>
+<p>B+的搜索与B-树也基本相同，区别是B+树只有达到叶子结点才命中（B-树可以在非叶子结点命中），其性能也等价于在关键字全集做一次二分查找；</p>
+<p>B+的特性：</p>
+<ul>
+<li>所有关键字都出现在叶子结点的链表中（稠密索引），且链表中的关键字恰好是有序的；</li>
+<li>不可能在非叶子结点命中；</li>
+<li>非叶子结点相当于是叶子结点的索引（稀疏索引），叶子结点相当于是存储（关键字）数据的数据层；</li>
+<li>更适合文件索引系统；</li>
+</ul>
+<hr>
+<p><strong>建索引的几大原则</strong><br>1.最左前缀匹配原则，非常重要的原则，mysql会一直向右匹配直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配，比如a = 1 and b = 2 and c &gt; 3 and d = 4 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整。</p>
+<p>2.=和in可以乱序，比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式</p>
+<p>3.尽量选择区分度高的列作为索引,区分度的公式是count(distinct col)/count(*)，表示字段不重复的比例，比例越大我们扫描的记录数越少，唯一键的区分度是1，而一些状态、性别字段可能在大数据面前区分度就是0，那可能有人会问，这个比例有什么经验值吗？使用场景不同，这个值也很难确定，一般需要join的字段我们都要求是0.1以上，即平均1条扫描10条记录</p>
+<p>4.索引列不能参与计算，保持列“干净”，比如from_unixtime(create_time) = ’2014-05-29’就不能使用到索引，原因很简单，b+树中存的都是数据表中的字段值，但进行检索时，需要把所有元素都应用函数才能比较，显然成本太大。所以语句应该写成create_time = unix_timestamp(’2014-05-29’);</p>
+<p>5.尽量的扩展索引，不要新建索引。比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可</p>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/05/12/sjk%E8%BF%9E%E6%8E%A5/">
+      MYSQL连接
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://Ai-guangnian.github.io" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/Ai-guangnian/Ai-guangnian.github.io/aa/OIP.jpg">
+    <p>Ai-guangnian</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>数据库</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年5月12日</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1.INNER JOIN（内连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt; </span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br></pre></td></tr></table></figure>
+<p>2.LEFT JOIN（左连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt;</span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br></pre></td></tr></table></figure>
+<p>3.RIGHT JOIN（右连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt;</span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line"><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br></pre></td></tr></table></figure>
+<p>4.OUTER JOIN（外连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt;</span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line">FULL <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br></pre></td></tr></table></figure>
+
+<p>5.LEFT JOIN EXCLUDING INNER JOIN（左连接-内连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt; </span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br><span class="line"><span class="keyword">WHERE</span> B.<span class="keyword">Key</span> <span class="keyword">IS</span> <span class="literal">NULL</span></span><br></pre></td></tr></table></figure>
+
+<p>6.RIGHT JOIN EXCLUDING INNER JOIN（右连接-内连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt;</span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line"><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br><span class="line"><span class="keyword">WHERE</span> A.<span class="keyword">Key</span> <span class="keyword">IS</span> <span class="literal">NULL</span></span><br></pre></td></tr></table></figure>
+
+<p>7.OUTER JOIN EXCLUDING INNER JOIN（外连接-内连接）</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt;</span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line">FULL <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br><span class="line"><span class="keyword">WHERE</span> A.<span class="keyword">Key</span> <span class="keyword">IS</span> <span class="literal">NULL</span> <span class="keyword">OR</span> B.<span class="keyword">Key</span> <span class="keyword">IS</span> <span class="literal">NULL</span></span><br></pre></td></tr></table></figure>
+
+
+<hr>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/05/12/sjk/">
+      事务隔离
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://Ai-guangnian.github.io" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/Ai-guangnian/Ai-guangnian.github.io/aa/OIP.jpg">
+    <p>Ai-guangnian</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>数据库</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年5月12日</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>脏读<br>当一个事务读取到另外一个事务修改但未提交的数据时，就可能发生脏读。<br>事务2修改了一行，但是没有提交，事务1读了这个没有提交的数据。<br>现在如果事务2回滚了刚才的修改或者做了另外的修改的话，事务1中查到的数据就是不正确的了，所以这条数据就是脏读。</p>
+<p>不可重复读<br>“不可重复读”现象发生在当执行SELECT 操作时没有获得读锁或者SELECT操作执行完后马上释放了读锁；另外一个事务对数据进行了更新，读到了不同的结果。<br>事务2提交成功，因此他对id为1的行的修改就对其他事务可见了。导致了事务1在此前读的age=1，第二次读的age=2，两次结果不一致,这就是不可重复读。</p>
+<p>幻读<br>“幻读”又叫”幻象读”,是’’不可重复读’’的一种特殊场景：当事务1两次执行’’SELECT … WHERE’’检索一定范围内数据的操作中间，事务2在这个表中创建了(如[[INSERT]])了一行新数据，这条新数据正好满足事务1的“WHERE”子句。</p>
+<ol>
+<li>脏读：指读到了其他事务未提交的数据。</li>
+<li>不可重复读：读到了其他事务已提交的数据(update)。</li>
+<li>不可重复读与幻读都是读到其他事务已提交的数据,但是它们针对点不同。</li>
+<li>不可重复读：update。</li>
+<li>幻读：delete，insert。</li>
+</ol>
+<hr>
+<p>MySQL中的四种事务隔离级别<br>未提交读<br>未提交读（READ UNCOMMITTED）是最低的隔离级别，在这种隔离级别下，如果一个事务已经开始写数据，则另外一个事务则不允许同时进行写操作，但允许其他事务读此行数据。</p>
+<p>已提交读<br>由于MySQL的InnoDB默认是使用的RR级别，所以我们先要将该session开启成RC级别，并且设置binlog的模式<br>SET session transaction isolation level read committed;<br>SET SESSION binlog_format = ‘ROW’;（或者是MIXED）<br>在已提交读（READ COMMITTED）级别中，读取数据的事务允许其他事务继续访问该行数据，但是未提交的写事务将会禁止其他事务访问该行，会对该写锁一直保持直到到事务提交。</p>
+<p>可重复读<br>在可重复读（REPEATABLE READS）是介于已提交读和可串行化之间的一种隔离级别(废话😅)，它是InnoDb的默认隔离级别，它是我这篇文章的重点讨论对象，所以在这里我先卖个关子,后面我会详细介绍。</p>
+<p>可串行化<br>可串行化（Serializable ）是高的隔离级别，它求在选定对象上的读锁和写锁保持直到事务结束后才能释放，所以能防住上诉所有问题，但因为是串行化的，所以效率较低。</p>
+<hr>
+<p>悲观锁与乐观锁</p>
+<p>我们前面说的在对象上加锁，是一种悲观锁机制。<br>有很多文章说可重复读的隔离级别防不了幻读，是认为可重复读会对读的行加锁，导致他事务修改不了这条数据，直到事务结束。<br>但是这种方案只能锁住数据行，如果有新的数据进来，是阻止不了的，所以会产生幻读。</p>
+<p>悲观锁<br>正如其名，它指的是对数据被外界（包括本系统当前的其他事务，以及来自外部系统的事务处理）修改持保守态度，因此，在整个数据处理过程中，将数据处于锁定状态。<br>读取数据时给加锁，其它事务无法修改这些数据。修改删除数据时也要加锁，其它事务无法读取这些数据。</p>
+<p>乐观锁<br>相对悲观锁而言，乐观锁机制采取了更加宽松的加锁机制。悲观锁大多数情况下依靠数据库的锁机制实现，以保证操作最大程度的独占性。<br>但随之而来的就是数据库性能的大量开销，特别是对长事务而言，这样的开销往往无法承受。<br>而乐观锁机制在一定程度上解决了这个问题。乐观锁，大多是基于数据版本（ Version ）记录机制实现。<br>何谓数据版本？即为数据增加一个版本标识，在基于数据库表的版本解决方案中，一般是通过为数据库表增加一个 “version” 字段来实现。读取出数据时，将此版本号一同读出，之后更新时，对此版本号加一。<br>此时，将提交数据的版本数据与数据库表对应记录的当前版本信息进行比对，如果提交的数据版本号大于数据库表当前版本号，则予以更新，否则认为是过期数据。<br>MySQL、ORACLE、PostgreSQL等都是使用了以乐观锁为理论基础的MVCC（多版本并发控制）来避免不可重复读和幻读,MVCC的实现没有固定的规范，每个数据库都会有不同的实现方式，这里讨论的是InnoDB的MVCC。</p>
+<hr>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/05/12/shujuku/">
+      MYSQL和索引
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://Ai-guangnian.github.io" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/Ai-guangnian/Ai-guangnian.github.io/aa/OIP.jpg">
+    <p>Ai-guangnian</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>数据库</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年5月12日</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>==Why MySQL==</strong></p>
+<ol>
+<li>在众多开源免费的关系型数据库系统中，MySQL有以下比较出众的优势：</li>
+<li>运行速度快</li>
+<li>易使用</li>
+<li>SQL语言支持</li>
+<li>移植性好</li>
+<li>功能丰富</li>
+<li>成本低廉</li>
+</ol>
+<p><strong>==MySQL中myisam与innodb的区别==</strong><br><em>==MyISAM：==</em></p>
+<ul>
+<li>不支持事务，但是每次查询都是原子的；</li>
+<li>支持表级锁，即每次操作对整个表加锁；</li>
+<li>存储表的总行数；</li>
+<li>一个MYISAM表有三个文件：索引文件、表结构文件、数据文件；</li>
+<li>采用非聚集索引，索引文件的数据域存储指向数据文件的指针。辅索引与主索引基本一致，但是辅索引不用保证唯一性。</li>
+</ul>
+<p>==<em>InnoDb：</em>==</p>
+<ul>
+<li>支持ACID的事务，支持事务的四种隔离级别；</li>
+<li>支持行级锁及外键约束：因此可以支持写并发；</li>
+<li>不存储总行数；</li>
+<li>一个InnoDb引擎存储在一个文件空间（共享表空间，表大小不受操作系统控制，一个表可能分布在多个文件里），也有可能为多个（设置为独立表空，表大小受操作系统文件大小限制，一般为2G），受操作系统文件大小的限制；</li>
+<li>主键索引采用聚集索引（索引的数据域存储数据文件本身），辅索引的数据域存储主键的值；因此从辅索引查找数据，需要先通过辅索引找到主键值，再访问辅索引；最好使用自增主键，防止插入数据时，为维持B+树结构，文件的大调整。</li>
+</ul>
+<p>==<em>两者的适用场景：</em>==</p>
+<ul>
+<li>因为MyISAM相对简单所以在效率上要优于InnoDB.如果系统读多，写少。对原子性要求低。那么MyISAM最好的选择。且MyISAM恢复速度快。可直接用备份覆盖恢复。</li>
+<li>如果系统读少，写多的时候，尤其是并发写入高的时候。InnoDB就是首选了。</li>
+</ul>
+<hr>
+<p><strong>==MySQL的索引类型，并分别简述一下各自的场景。==</strong></p>
+<ol>
+<li>普通索引：没有任何限制条件的索引，该索引可以在任何数据类型中创建。</li>
+<li>唯一索引：使用UNIQUE参数可以设置唯一索引。创建该索引时，索引列的值必须唯一，但允许有空值。通过唯一索引，用户可以快速地定位某条记录，主键索引是一种特殊的唯一索引。</li>
+<li>全文索引：仅可用于 MyISAM 表，针对较大的数据，生成全文索引耗时耗空间。</li>
+<li>空间索引：只能建立在空间数据类型上。这样可以提高系统获取空间数据类型的效率。仅可用于 MyISAM 表，索引的字段不能为空值。使用SPATIAL参数可以设置索引为空间索引。</li>
+<li>单列索引：只对应一个字段的索引。</li>
+<li>多列索引：在表的多个字段上创建一个索引。该索引指向创建时对应的多个字段，用户可以通过这几个字段进行查询，想使用该索引，用户必须使用这些字段中的一个字段。</li>
+</ol>
+<hr>
+<p><strong>==Why Index==</strong></p>
+<p>从概念上讲，数据库是数据表的集合，数据表是数据行和数据列的集合。当你执行一个SELECT语句从数据表中查询部分数据行的时候，得到的就是另外一个数据表和数据行的集合。<br>当然，我们都希望获得这个新的集合的时间尽可能地短，效率尽可能地高，这就是优化查询。<br>提升查询速度的技术有很多，其中最重要的就是索引。当你发现自己的查询速度慢的时候，最快解决问题的方法就是使用索引。索引的使用是影响查询速度的重要因素。在使用索引之前其他的优化查询的动作纯粹是浪费时间，只有合理地使用索引之后，才有必要考虑其他优化方式。</p>
+<p><em>==创建索引==</em><br>三种方式：<br>使用CREATE INDEX创建，语法如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> indexName <span class="keyword">ON</span> tableName (columnName(<span class="keyword">length</span>));</span><br></pre></td></tr></table></figure>
+
+<p>例如我们对ip_address这一列创建一个长度为16的索引：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> index_ip_addr <span class="keyword">ON</span> t_user_action_log (ip_address(<span class="number">16</span>));</span><br></pre></td></tr></table></figure>
+
+<p>使用ALTER语句创建，语法如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tableName <span class="keyword">ADD</span> <span class="keyword">INDEX</span> indexName(columnName);</span><br></pre></td></tr></table></figure>
+
+<p>ALTER语句创建索引前面已经有例子了。下面提供一个设置索引长度的例子：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> t_user_action_log <span class="keyword">ADD</span> <span class="keyword">INDEX</span> ip_address_idx (ip_address(<span class="number">16</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">INDEX</span> <span class="keyword">FROM</span> t_user_action_log;</span><br></pre></td></tr></table></figure>
+
+<p>==<em>查看索引</em>==<br>可以通过show语句查看索引：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">INDEX</span> <span class="keyword">FROM</span> t_user_action_log;</span><br></pre></td></tr></table></figure>
+
+<p><em>==删除索引==</em><br>使用ALTER命令可以删除索引，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> t_user_action_log <span class="keyword">DROP</span> <span class="keyword">INDEX</span> index_ip_addr;</span><br></pre></td></tr></table></figure>
+
+
+<hr>
+<p>==<strong>索引的使用原则</strong>==</p>
+<p><em>==写操作比较频繁的列慎重加索引==</em><br>索引在提高查询速度的同时，也由于需要更新索引而带来了降低插入、删除和更新带索引列的速度的问题。一张数据表的索引越多，在写操作的时候性能下降的越厉害。</p>
+<p><em>==索引越多占用磁盘空间越大==</em><br>与没有加索引比较，加索引会更快地使你的磁盘接近使用空间极限。</p>
+<p><em>==不要为输出列加索引==</em><br>为查询条件、分组、连接条件的列加索引，而不是为查询输出结果的列加索引。<br>例如下面的查询语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ip_address <span class="keyword">from</span> t_user_action_log</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'LiSi'</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">action</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> create_time;</span><br></pre></td></tr></table></figure>
+<p>所以可以考虑增加在 name action create_time 列上，而不是 ip_address。</p>
+<p><em>==考虑维度优势==</em><br>例如action列的值包含：1、2、3、4、5，那么该列的维度就是5。<br>维度越高（理论上维度的最大值就是数据行的总数），数据列包含的独一无二的值就越多，索引的使用效果越好。<br>对于维度很低的数据列，索引几乎不会起作用，因此没有必要加索引。<br>例如性别列的值只有男和女，每种查询结果占比大约50%。一般当查询优化处理器发现查询结果超过全表的30%的时候，就会跳过索引，直接进行全表扫描。</p>
+<p><em>==对短小的值加索引==</em><br>对短小的值加索引，意味着索引所占的空间更小，可以减少I/O活动，同时比较索引的速度也更快。<br>尤其是主键，要尽可能短小。<br>另外，InnoDB使用的是聚集索引（clustered index），也就是把主键和数据行保存在一起。主键之外的其他索引都是二级索引，这些二级索引也保留着一份主键，这样在查询到索引以后，就可以根据主键找到对应的数据行。如果主键太长的话，会造成二级索引占用的空间变大。</p>
+<p><em>==为字符串前缀加索引==</em><br>前边已经讲过短小索引的种种好处了，有时候一个字符串的前几个字符就能唯一标识这条记录，这个时候设置索引的长度就是非常划算的做法。<br>前面已经提供了设置索引length的例子，这里就不举例子了。</p>
+<p><em>==复合索引的左侧索引==</em><br>创建复合索引的语法如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> indexName <span class="keyword">ON</span> tableName (column1 <span class="keyword">DESC</span>, column2 <span class="keyword">DESC</span>, column3 <span class="keyword">ASC</span>);</span><br></pre></td></tr></table></figure>
+
+<p><em>==索引加锁==</em><br>对于InnoDB来说，索引可以让查询锁住更少的行，从而可以在并发情况下拥有更佳表现。<br>下面演示一下查询锁与索引之间的关系。<br>前面使用的t_user_action_log表目前有一个id为主键，还有一个二级索引action。<br>下面这条语句的修改范围是id值为1 2 3 4所在的行，查询锁会锁住id值为1 2 3 4 5所在的行。<br>update ijiangtao_local_db_mysql.t_user_action_log set name=’c1’ where id&lt;5;<br>首先创建数据库连接1，开启事务，并执行update语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> autocommit=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">update</span> ijiangtao_local_db_mysql.t_user_action_log <span class="keyword">set</span> <span class="keyword">name</span>=<span class="string">'c1'</span> <span class="keyword">where</span> <span class="keyword">id</span>&lt;<span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+
+<p>然后开启另外一个连接2，分别执行下面几个update语句</p>
+<p>– 没有被锁<br>update ijiangtao_local_db_mysql.t_user_action_log set name=’c2’ where id=6;<br>– 被锁<br>update ijiangtao_local_db_mysql.t_user_action_log set name=’c2’ where id=5;<br>你会发现id=5的数据行已经被锁定，id=6的数据行可以正常提交。<br>连接1提交事务，连接2的id=1和id=5的数据行可以update成功了。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 在连接1提交事务</span></span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果不使用索引<br>ip_address没有索引的话，会锁定全表。<br>连接1开启事务以后commit;之前，连接2对该表的update全部需要等待连接1释放锁。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> autocommit=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">update</span> ijiangtao_local_db_mysql.t_user_action_log <span class="keyword">set</span> <span class="keyword">name</span>=<span class="string">'c1'</span> <span class="keyword">where</span> ip_address=<span class="string">'8.</span></span><br></pre></td></tr></table></figure>
+
+<p><em>==覆盖索引==</em><br>如果索引包含满足查询的所有数据，就被称为覆盖索引(Covering Indexes)，覆盖索引非常强大，可以大大提高查询性能。</p>
+<p>覆盖索引高性能的原因是：<br>索引通常比记录要小，覆盖索引查询只需要读索引，而不需要读记录。<br>索引都按照值的大小进行顺序存储，相比与随机访问记录，需要更少的I/0。<br>大多数数据引擎能更好的缓存索引，例如MyISAM只缓存索引。</p>
+<p>==<em>聚簇索引</em>==<br>聚簇索引(Clustered Indexes)保证关键字的值相近的元组存储的物理位置也相同，且一个表只能有一个聚簇索引。<br>字符串类型不建议使用聚簇索引，特别是随机字符串，因为它们会使系统进行大量的移动操作。<br>并不是所有的存储引擎都支持聚簇索引，目前InnoDB支持。<br>如果使用聚簇索引，最好使用AUTO_INCREMENT列作为主键，应该尽量避免使用随机的聚簇主键。<br>从物理位置上看，聚簇索引表比非聚簇的索引表，有更好的访问性能。<br>选择合适的索引类型<br>从数据结构角度来看，MySQL支持的索引类型有B树索引、Hash索引等。</p>
+<p>==<em>B树索引</em>==<br>B树索引对于&lt;、&lt;=、 =、 &gt;=、 &gt;、 &lt;&gt;、!=、 between查询，进行精确比较操作和范围比较操作都有比较高的效率。<br>B树索引也是InnoDB存储引擎默认的索引结构。</p>
+<p>==<em>Hash索引</em>==<br>Hash索引仅能满足=、&lt;=&gt;、in查询。<br>Hash索引检索效率非常高，索引的检索可以一次定位，不像B树索引需要从根节点到枝节点，最后才能访问到页节点这样多次的I/O访问，所以Hash索引的查询效率要远高于B树索引。但Hash索引不能使用范围查询。</p>
+<hr>
+<p><strong>==查询优化建议==</strong><br>下面提供几个查询优化的建议。<br>==<em>使用explain分析查询语句</em>==<br>前面已经演示过如何使用explain命令分析查询语句了，这里再解释一下其中几个有参考价值的字段的含义：</p>
+<p>select_type<br>select_type表示查询中每个select子句的类型，一般有下面几个值:</p>
+<ul>
+<li>SIMPLE<br>简单SELECT,不使用UNION或子查询等。</li>
+<li>PRIMARY<br>查询中若包含任何复杂的子部分,最外层的select被标记为PRIMARY。</li>
+<li>UNION<br>UNION中的第二个或后面的SELECT语句。</li>
+<li>DEPENDENT UNION<br>UNION中的第二个或后面的SELECT语句，取决于外面的查询。</li>
+<li>UNION RESULT<br>UNION的结果。</li>
+<li>SUBQUERY<br>子查询中的第一个SELECT。</li>
+<li>DEPENDENT SUBQUERY<br>子查询中的第一个SELECT，取决于外面的查询。</li>
+<li>DERIVED<br>派生表的SELECT, FROM子句的子查询。</li>
+<li>UNCACHEABLE SUBQUERY<br>一个子查询的结果不能被缓存，必须重新评估外链接的第一行。</li>
+</ul>
+<p>type<br>type表示MySQL在表中找到所需行的方式，又称“访问类型”，常用的类型有：<br>ALL, index, range, ref, eq_ref, const, system, NULL。<br>从左到右，性能从差到好。</p>
+<p>ALL：<br>Full Table Scan，MySQL将遍历全表以找到匹配的行。</p>
+<p>index:<br>Full Index Scan，index与ALL区别为index类型只遍历索引树。</p>
+<p>range:<br>只检索给定范围的行，使用一个索引来选择行。</p>
+<p>ref:<br>表示上述表的连接匹配条件，即哪些列或常量被用于查找索引列上的值。</p>
+<p>eq_ref:<br>类似ref，区别就在使用的索引是唯一索引，对于每个索引键值，表中只有一条记录匹配，简单来说，就是多表连接中使用primary key或者 unique key作为关联条件。</p>
+<p>const:<br>当MySQL对查询某部分进行优化，并转换为一个常量时，使用这些类型访问。<br>如将主键置于where列表中，MySQL就能将该查询转换为一个常量。</p>
+<p>NULL:<br>MySQL在优化过程中分解语句，执行时甚至不用访问表或索引，例如从一个索引列里选取最小值可以通过单独索引查找完成。</p>
+<p>Key<br>key列显示MySQL实际决定使用的键（索引），如果没有选择索引，键是NULL。</p>
+<p>possible_keys<br>possible_keys指出MySQL能使用哪个索引在表中找到记录，查询涉及到的字段上如果存在索引则该索引将被列出，但不一定被查询使用。</p>
+<p>ref<br>ref表示上述表的连接匹配条件，即哪些列或常量被用于查找索引列上的值。</p>
+<p>rows<br>rows表示MySQL根据表统计信息，以及索引选用的情况，找到所需记录需要读取的行数。这个行数是估算的值，实际行数可能不同。<br>用好explain命令是查询优化的第一步 !</p>
+<p><em>==声明NOT NULL==</em><br>当数据列被声明为NOT NULL以后，在查询的时候就不需要判断是否为NULL，由于减少了判断，可以降低复杂性，提高查询速度。<br>如果要表示数据列为空，可以使用0等代替。</p>
+<p>==<em>考虑使用数值类型代替字符串</em>==<br>MySQL对数值类型的处理速度要远远快于字符串，而且数值类型往往更加节省空间。<br>例如对于“Male”和“Female”可以用“0”和“1”进行代替。</p>
+<p><em>==考虑使用ENUM类型==</em><br>如果你的数据列的取值是确定有限的，可以使用ENUM类型代替字符串。因为MySQL会把这些值表示为一系列对应的数字，这样处理的速度会提高很多。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> shirts (</span><br><span class="line">    <span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">40</span>),</span><br><span class="line">    <span class="keyword">size</span> ENUM(<span class="string">'x-small'</span>, <span class="string">'small'</span>, <span class="string">'medium'</span>, <span class="string">'large'</span>, <span class="string">'x-large'</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> shirts (<span class="keyword">name</span>, <span class="keyword">size</span>) <span class="keyword">VALUES</span> (<span class="string">'dress shirt'</span>,<span class="string">'large'</span>), (<span class="string">'t-shirt'</span>,<span class="string">'medium'</span>),</span><br><span class="line">  (<span class="string">'polo shirt'</span>,<span class="string">'small'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span>, <span class="keyword">size</span> <span class="keyword">FROM</span> shirts <span class="keyword">WHERE</span> <span class="keyword">size</span> = <span class="string">'medium'</span>;</span><br></pre></td></tr></table></figure>
+
+
+<hr>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
       
         
           <div class='post-wrapper'>
@@ -975,6 +1571,11 @@
             ><div class='name'>杂文</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box"
+            title="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"
+            id="categoriesE695B0E68DAEE5BA93"
+            ><div class='name'>数据库</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box"
             title="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"
             id="categoriesE8AEA1E7AE97E69CBAE7BD91E7BB9C"
             ><div class='name'>计算机网络</div><div class='badge'>(1)</div></a></li>
@@ -1001,7 +1602,7 @@
 
 
     <div class='content'>
-      <a href="/tags/HTTP/" style="font-size: 14px; color: #999">HTTP</a> <a href="/tags/Java/" style="font-size: 14px; color: #999">Java</a> <a href="/tags/TCP-IP/" style="font-size: 14px; color: #999">TCP/IP</a> <a href="/tags/%E6%9D%82%E6%96%87/" style="font-size: 24px; color: #555">杂文</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 14px; color: #999">网络</a>
+      <a href="/tags/HTTP/" style="font-size: 14px; color: #999">HTTP</a> <a href="/tags/Java/" style="font-size: 14px; color: #999">Java</a> <a href="/tags/MYSQL/" style="font-size: 24px; color: #555">MYSQL</a> <a href="/tags/SQL/" style="font-size: 20.67px; color: #6c6c6c">SQL</a> <a href="/tags/TCP-IP/" style="font-size: 14px; color: #999">TCP/IP</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 24px; color: #555">数据库</a> <a href="/tags/%E6%9D%82%E6%96%87/" style="font-size: 17.33px; color: #828282">杂文</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 14px; color: #999">网络</a>
     </div>
   </section>
 
