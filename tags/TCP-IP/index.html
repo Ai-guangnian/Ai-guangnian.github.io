@@ -462,29 +462,15 @@
 <li>客户端-发回ACK报文确认，并将确认序号设置为收到序号加1</li>
 </ol>
 <hr>
-<p><strong>HTTP</strong></p>
-<ul>
-<li>Http协议是建立在TCP协议基础之上的，当浏览器需要从服务器获取网页数据的时候，会发出一次Http请求。Http会通过TCP建立起一个到服务器的连接通道，当本次请求需要的数据完毕后，Http会立即将TCP连接断开，这个过程是很短的。所以Http连接是一种短连接，是一种无状态的连接。</li>
-<li>所谓的无状态，是指浏览器每次向服务器发起请求的时候，不是通过一个连接，而是每次都建立一个新的连接。如果是一个连接的话，服务器进程中就能保持住这个连接并且在内存中记住一些信息状态。而每次请求结束后，连接就关闭，相关的内容就释放了，所以记不住任何状态，成为无状态连接。</li>
-</ul>
-<hr>
-<p><strong>输入url到页面加载都发生了什么事情？</strong></p>
-<ul>
-<li>输入地址</li>
-<li>浏览器查找域名的 IP 地址 这一步包括 DNS 具体的查找过程，包括：浏览器缓存-&gt;系统缓存-&gt;路由器缓存…</li>
-<li>浏览器向 web 服务器发送一个 HTTP 请求</li>
-<li>服务器的永久重定向响应（从 <a href="http://example.com" target="_blank" rel="noopener">http://example.com</a> 到 <a href="http://www.example.com）" target="_blank" rel="noopener">http://www.example.com）</a></li>
-<li>浏览器跟踪重定向地址</li>
-<li>服务器处理请求</li>
-<li>服务器返回一个 HTTP 响应</li>
-<li>浏览器显示 HTML</li>
-<li>浏览器发送请求获取嵌入在 HTML 中的资源（如图片、音频、视频、CSS、JS等等）</li>
-<li>浏览器发送异步请求</li>
-</ul>
-
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/2020/05/12/WL/">
+            Read More <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>
