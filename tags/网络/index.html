@@ -5,6 +5,8 @@
   <!-- SEO相关 -->
   
     
+      <meta name="robots" content="noindex,follow">
+    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -16,9 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>第一篇博客 - Ai-guangnian</title>
-  
-    <meta name="keywords" content="杂文">
+    <title>标签：网络 - Ai-guangnian</title>
   
   
 
@@ -329,12 +329,25 @@
     <div class='body-wrapper'>
       
 
+
 <div class='l_main'>
   
-
-  
-    <article id="first" class="post white-box reveal shadow article-type-first" itemscope itemprop="blogPost">
+    
       
+  <section class="post-list ">
+    
+      
+        
+          
+        
+      
+    
+    
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
 
 
   <section class='meta'>
@@ -344,11 +357,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h1 class="title">
-    <a href="/2020/05/11/Page/">
-      第一篇博客
+  <h2 class="title">
+    <a href="/2020/05/12/WL/">
+      网络
     </a>
-  </h1>
+  </h2>
 
 
         
@@ -371,9 +384,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/hert/' rel="nofollow">
+    <a href='/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>杂文</p>
+      <p>计算机网络</p>
     </a>
   </div>
 
@@ -384,9 +397,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年5月11日</p>
+    <p>发布于：2020年5月12日</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -404,87 +422,223 @@
   </section>
 
 
-      <section class="article typo">
-        <div class="article-entry" itemprop="articleBody">
-          
-          <p><img src="./images/41F215B9-261F-48B4-80B5-4E86E165259E.jpg" alt="enter description here"></p>
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>TCP/IP 协议分层模型</strong></p>
+<p>物理层将二进制的0和1和电压高低，光的闪灭和电波的强弱信号进行转换</p>
+<p>链路层代表驱动</p>
+<p>网络层</p>
+<ul>
+<li>使用 IP 协议，IP 协议基于 IP 转发分包数据</li>
+<li>IP 协议是个不可靠协议，不会重发</li>
+<li>IP 协议发送失败会使用ICMP 协议通知失败</li>
+<li>ARP 解析 IP 中的 MAC 地址，MAC 地址由网卡出厂提供</li>
+<li>IP 还隐含链路层的功能，不管双方底层的链路层是啥，都能通信</li>
+</ul>
+<p>传输层</p>
+<ul>
+<li>TCP 协议面向有连接，能正确处理丢包，传输顺序错乱的问题，但是为了建立与断开连接，需要至少7次的发包收包，资源浪费</li>
+<li>UDP 面向无连接，不管对方有没有收到，如果要得到通知，需要通过应用层</li>
+<li>通用的 TCP 和 UDP 协议</li>
+</ul>
+<p>会话层以上分层</p>
+<ul>
+<li>TCP/IP 分层中，会话层，表示层，应用层集中在一起</li>
+<li>网络管理通过 SNMP 协议</li>
+</ul>
 <hr>
-<p>   <strong>Hello</strong>，这是我的第一篇<em>==博客==</em>！</p>
+<p><strong>三次握手：</strong></p>
+<ol>
+<li>客户端–发送带有SYN标志的数据包–一次握手–服务端</li>
+<li>服务端–发送带有SYN/ACK标志的数据包–二次握手–客户端</li>
+<li>客户端–发送带有带有ACK标志的数据包–三次握手–服务端</li>
+</ol>
+<p><strong>四次挥手：</strong></p>
+<ol>
+<li>客户端-发送一个FIN，用来关闭客户端到服务器的数据传送</li>
+<li>服务器-收到这个FIN，它发回一个ACK，确认序号为收到的序号加1 。和SYN一样，一个FIN将占用一个序号</li>
+<li>服务器-关闭与客户端的连接，发送一个FIN给客户端</li>
+<li>客户端-发回ACK报文确认，并将确认序号设置为收到序号加1</li>
+</ol>
+<hr>
+<p><strong>HTTP</strong></p>
+<ul>
+<li>Http协议是建立在TCP协议基础之上的，当浏览器需要从服务器获取网页数据的时候，会发出一次Http请求。Http会通过TCP建立起一个到服务器的连接通道，当本次请求需要的数据完毕后，Http会立即将TCP连接断开，这个过程是很短的。所以Http连接是一种短连接，是一种无状态的连接。</li>
+<li>所谓的无状态，是指浏览器每次向服务器发起请求的时候，不是通过一个连接，而是每次都建立一个新的连接。如果是一个连接的话，服务器进程中就能保持住这个连接并且在内存中记住一些信息状态。而每次请求结束后，连接就关闭，相关的内容就释放了，所以记不住任何状态，成为无状态连接。</li>
+</ul>
+<hr>
+<p><strong>输入url到页面加载都发生了什么事情？</strong></p>
+<ul>
+<li>输入地址</li>
+<li>浏览器查找域名的 IP 地址 这一步包括 DNS 具体的查找过程，包括：浏览器缓存-&gt;系统缓存-&gt;路由器缓存…</li>
+<li>浏览器向 web 服务器发送一个 HTTP 请求</li>
+<li>服务器的永久重定向响应（从 <a href="http://example.com" target="_blank" rel="noopener">http://example.com</a> 到 <a href="http://www.example.com）" target="_blank" rel="noopener">http://www.example.com）</a></li>
+<li>浏览器跟踪重定向地址</li>
+<li>服务器处理请求</li>
+<li>服务器返回一个 HTTP 响应</li>
+<li>浏览器显示 HTML</li>
+<li>浏览器发送请求获取嵌入在 HTML 中的资源（如图片、音频、视频、CSS、JS等等）</li>
+<li>浏览器发送异步请求</li>
+</ul>
 
-          
-        </div>
-        
-        
-          <div class="prev-next">
-            
-              <a class='prev' href='/2020/05/12/WL/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>网络</p>
-                <p class='content'>TCP/IP 协议分层模型
-物理层将二进制的0和1和电压高低，光的闪灭和电波的强弱信号进行转换
-链路层代表驱动
-网络层
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
 
-使用 IP 协议，IP 协议基于 IP 转发分包数据
-IP 协议是个不可...</p>
-              </a>
-            
-            
-              <a class='next' href='/2020/05/11/hello-world/'>
-                <p class='title'>Hello World<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any ...</p>
-              </a>
-            
           </div>
         
-      </section>
-    </article>
+      
+    
+  </section>
   
-
-  
-    <!-- 显示推荐文章和评论 -->
-
-
-
-  <article class="post white-box reveal comments shadow">
-    <section class="article typo">
-      <p ct><i class='fas fa-comments'></i> 评论</p>
-      
-      
-      
-      
-      
-      
-        <section id="comments">
-          <div id="valine_container" class="valine_thread">
-            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
-          </div>
-        </section>
-      
-      
-    </section>
-  </article>
-
+    
+    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
+    
+    
 
   
 
 
-
-
-<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
-
-
-
-
+    
+  
 </div>
 <aside class='l_side'>
   
   
+    
+    
+
+<section class="widget blogger shadow desktop mobile">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box' href='/about/'>
+          <img no-lazy src='https://cdn.jsdelivr.net/gh/Ai-guangnian/Ai-guangnian.github.io/aa/OIP.jpg'/>
+        </a>
+      
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Ai-guangnian</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://mail.126.com/"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://music.163.com/#/user/home?id=389591088"
+              class="social fas fa-headphones-alt flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+  
 
   
     
     
+  
+
+  <section class="widget category shadow desktop">
+    
+  <header>
+    
+      <a href='categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
 
 
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Hello/" href="/categories/Hello/"
+            id="categoriesHello"
+            ><div class='name'>Hello</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/hert/" href="/categories/hert/"
+            id="categorieshert"
+            ><div class='name'>杂文</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"
+            id="categoriesE8AEA1E7AE97E69CBAE7BD91E7BB9C"
+            ><div class='name'>计算机网络</div><div class='badge'>(1)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow desktop mobile">
+    
+  <header>
+    
+      <a href='tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/HTTP/" style="font-size: 14px; color: #999">HTTP</a> <a href="/tags/Java/" style="font-size: 14px; color: #999">Java</a> <a href="/tags/TCP-IP/" style="font-size: 14px; color: #999">TCP/IP</a> <a href="/tags/%E6%9D%82%E6%96%87/" style="font-size: 24px; color: #555">杂文</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 14px; color: #999">网络</a>
+    </div>
+  </section>
+
+
+  
 
   
 
@@ -697,60 +851,6 @@ IP 协议是个不可...</p>
 
 
 
-
-  
-    
-<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
-
-  
-  <script>
-  var GUEST_INFO = ['nick','mail','link'];
-  var meta = 'nick,mail,link'.split(',').filter(function(item){
-    return GUEST_INFO.indexOf(item) > -1
-  });
-  var REQUIRED_FIELDS = ['nick','mail','link'];
-  var requiredFields = 'nick,mail'.split(',').filter(function(item){
-    return REQUIRED_FIELDS.indexOf(item) > -1
-  });
-  var valine = new Valine();
-  function emoji(path, idx, ext) {
-      return path + "/" + path + "-" + idx + "." + ext;
-  }
-  var emojiMaps = {};
-  for (var i = 1; i <= 54; i++) {
-    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
-  }
-  for (var i = 1; i <= 101; i++) {
-    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
-  }
-  for (var i = 1; i <= 116; i++) {
-    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
-  }
-  for (var i = 1; i <= 125; i++) {
-    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
-  }
-  for (var i = 1; i <= 4; i++) {
-    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
-  }
-  valine.init({
-    el: '#valine_container',
-    meta: meta,
-    
-    appId: "dogUA2FSKGTo029M1SEwGROT-MdYXbMMI",
-    appKey: "u0NdtQ8nvHoMdJPSYqm1LRxE",
-    placeholder: "快来评论吧~",
-    pageSize:'10',
-    avatar:'robohash',
-    lang:'zh-cn',
-    visitor: 'true',
-    highlight: 'true',
-    mathJax: 'false',
-    enableQQ: 'true',
-    requiredFields: requiredFields,
-    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
-    emojiMaps: emojiMaps
-  })
-  </script>
 
 
 
