@@ -21,6 +21,9 @@
     <meta name="keywords" content="SQL,MYSQL,数据库">
   
   
+    <meta name="description" content="脏读当一个事务读取到另外一个事务修改但未提交的数据时，就可能发生脏读。事务2修改了一行，但是没有提交，事务1读了这个没有提交的数据。现在如果事务2回滚了刚才的修改或者做了另外的修改的话，事务1中查到的数据就是不正确的了，所以这条数据就是脏读。
+不可重复读“不可重复读”现象发生在当执行SELECT 操作时没有获得读...">
+  
 
   <!-- feed -->
   
@@ -409,6 +412,7 @@
           
           <p>脏读<br>当一个事务读取到另外一个事务修改但未提交的数据时，就可能发生脏读。<br>事务2修改了一行，但是没有提交，事务1读了这个没有提交的数据。<br>现在如果事务2回滚了刚才的修改或者做了另外的修改的话，事务1中查到的数据就是不正确的了，所以这条数据就是脏读。</p>
 <p>不可重复读<br>“不可重复读”现象发生在当执行SELECT 操作时没有获得读锁或者SELECT操作执行完后马上释放了读锁；另外一个事务对数据进行了更新，读到了不同的结果。<br>事务2提交成功，因此他对id为1的行的修改就对其他事务可见了。导致了事务1在此前读的age=1，第二次读的age=2，两次结果不一致,这就是不可重复读。</p>
+<a id="more"></a>
 <p>幻读<br>“幻读”又叫”幻象读”,是’’不可重复读’’的一种特殊场景：当事务1两次执行’’SELECT … WHERE’’检索一定范围内数据的操作中间，事务2在这个表中创建了(如[[INSERT]])了一行新数据，这条新数据正好满足事务1的“WHERE”子句。</p>
 <ol>
 <li>脏读：指读到了其他事务未提交的数据。</li>
@@ -515,7 +519,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-05-12T22:31:11+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-05-12T22:54:18+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2020年5月12日</p>
@@ -545,7 +549,8 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://ai-guangnian.github.io/2020/05/12/sjk/&title=事务隔离 - Ai-guangnian&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://ai-guangnian.github.io/2020/05/12/sjk/&title=事务隔离 - Ai-guangnian&summary=脏读当一个事务读取到另外一个事务修改但未提交的数据时，就可能发生脏读。事务2修改了一行，但是没有提交，事务1读了这个没有提交的数据。现在如果事务2回滚了刚才的修改或者做了另外的修改的话，事务1中查到的数据就是不正确的了，所以这条数据就是脏读。
+不可重复读“不可重复读”现象发生在当执行SELECT 操作时没有获得读锁或者SELECT操作执行完后马上释放了读锁；另外一个事务对数据进行了更新，读到了不同的结果。事务2提交成功，因此他对id为1的行的修改就对其他事务可见了。导致了事务1在此前读的age=1，第二次读的age=2，两次结果不一致,这就是不可重复读。"
           
           >
           
@@ -557,7 +562,8 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://ai-guangnian.github.io/2020/05/12/sjk/&title=事务隔离 - Ai-guangnian&summary="
+          href="http://service.weibo.com/share/share.php?url=http://ai-guangnian.github.io/2020/05/12/sjk/&title=事务隔离 - Ai-guangnian&summary=脏读当一个事务读取到另外一个事务修改但未提交的数据时，就可能发生脏读。事务2修改了一行，但是没有提交，事务1读了这个没有提交的数据。现在如果事务2回滚了刚才的修改或者做了另外的修改的话，事务1中查到的数据就是不正确的了，所以这条数据就是脏读。
+不可重复读“不可重复读”现象发生在当执行SELECT 操作时没有获得读锁或者SELECT操作执行完后马上释放了读锁；另外一个事务对数据进行了更新，读到了不同的结果。事务2提交成功，因此他对id为1的行的修改就对其他事务可见了。导致了事务1在此前读的age=1，第二次读的age=2，两次结果不一致,这就是不可重复读。"
           
           >
           
@@ -599,8 +605,7 @@ SQL语言支持
 移植性好
 功能丰富
 成本低廉
-
-==MySQL中myisa...</p>
+==MySQL中myisam...</p>
               </a>
             
           </div>
