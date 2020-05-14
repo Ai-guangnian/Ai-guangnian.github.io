@@ -431,6 +431,10 @@
         
           
         
+          
+        
+          
+        
       
     
     
@@ -449,8 +453,8 @@
         
           
   <h2 class="title">
-    <a href="/2020/05/12/%E7%B4%A2%E5%BC%95%E5%92%8CB-%E6%A0%91%E5%8E%9F%E7%90%86/">
-      索引和B+树原理
+    <a href="/2020/05/12/%E6%95%B0%E5%AD%A6/">
+      数学
     </a>
   </h2>
 
@@ -473,14 +477,6 @@
           
             
               
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>数据库</p>
-    </a>
-  </div>
-
 
             
           
@@ -516,16 +512,10 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在 MySQL 中，主要有四种类型的索引，分别为：B-Tree 索引， Hash 索引， Fulltext 索引和 R-Tree 索引。<br>B-Tree 索引是 MySQL 数据库中使用最为频繁的索引类型，除了 Archive 存储引擎之外的其他所有的存储引擎都支持 B-Tree 索引。Archive 引擎直到 MySQL 5.1 才支持索引，而且只支持索引单个 AUTO_INCREMENT 列。<br>不仅仅在 MySQL 中是如此，实际上在其他的很多数据库管理系统中B-Tree 索引也同样是作为最主要的索引类型，这主要是因为 B-Tree 索引的存储结构在数据库的数据检索中有非常优异的表现。<br>一般来说， MySQL 中的 B-Tree 索引的物理文件大多都是以 Balance Tree 的结构来存储的，也就是所有实际需要的数据都存放于 Tree 的 Leaf Node(叶子节点) ，而且到任何一个 Leaf Node 的最短路径的长度都是完全相同的，所以我们大家都称之为 B-Tree 索引。<br>当然，可能各种数据库（或 MySQL 的各种存储引擎）在存放自己的 B-Tree 索引的时候会对存储结构稍作改造。如 Innodb 存储引擎的 B-Tree 索引实际使用的存储结构实际上是 B+Tree，也就是在 B-Tree 数据结构的基础上做了很小的改造，在每一个Leaf Node 上面出了存放索引键的相关信息之外，还存储了指向与该 Leaf Node 相邻的后一个 LeafNode 的指针信息（增加了顺序访问指针），这主要是为了加快检索多个相邻 Leaf Node 的效率考虑。<br>InnoDB是Mysql的默认存储引擎(Mysql5.5.5之前是MyISAM）</p>
+        
       
     </div>
     
-      
-        <div class="button readmore">
-          <a href="/2020/05/12/%E7%B4%A2%E5%BC%95%E5%92%8CB-%E6%A0%91%E5%8E%9F%E7%90%86/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
       
     
   </section>
@@ -548,8 +538,8 @@
         
           
   <h2 class="title">
-    <a href="/2020/05/12/sjk%E8%BF%9E%E6%8E%A5/">
-      MYSQL连接
+    <a href="/2020/05/12/%E5%8A%A8%E5%BD%92/">
+      动归
     </a>
   </h2>
 
@@ -572,14 +562,6 @@
           
             
               
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>数据库</p>
-    </a>
-  </div>
-
 
             
           
@@ -615,17 +597,10 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <p>1.INNER JOIN（内连接）</p>
-<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &lt;select_list&gt; </span><br><span class="line"><span class="keyword">FROM</span> Table_A A</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Table_B B</span><br><span class="line"><span class="keyword">ON</span> A.<span class="keyword">Key</span> = B.<span class="keyword">Key</span></span><br></pre></td></tr></table></figure>
+        
       
     </div>
     
-      
-        <div class="button readmore">
-          <a href="/2020/05/12/sjk%E8%BF%9E%E6%8E%A5/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
       
     
   </section>
@@ -648,8 +623,8 @@
         
           
   <h2 class="title">
-    <a href="/2020/05/12/sjk/">
-      事务隔离
+    <a href="/2020/05/12/%E6%90%9C%E7%B4%A2/">
+      搜索
     </a>
   </h2>
 
@@ -672,14 +647,6 @@
           
             
               
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>数据库</p>
-    </a>
-  </div>
-
 
             
           
@@ -715,17 +682,10 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <p>脏读<br>当一个事务读取到另外一个事务修改但未提交的数据时，就可能发生脏读。<br>事务2修改了一行，但是没有提交，事务1读了这个没有提交的数据。<br>现在如果事务2回滚了刚才的修改或者做了另外的修改的话，事务1中查到的数据就是不正确的了，所以这条数据就是脏读。</p>
-<p>不可重复读<br>“不可重复读”现象发生在当执行SELECT 操作时没有获得读锁或者SELECT操作执行完后马上释放了读锁；另外一个事务对数据进行了更新，读到了不同的结果。<br>事务2提交成功，因此他对id为1的行的修改就对其他事务可见了。导致了事务1在此前读的age=1，第二次读的age=2，两次结果不一致,这就是不可重复读。</p>
+        
       
     </div>
     
-      
-        <div class="button readmore">
-          <a href="/2020/05/12/sjk/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
       
     
   </section>
@@ -748,8 +708,8 @@
         
           
   <h2 class="title">
-    <a href="/2020/05/12/shujuku/">
-      MYSQL和索引
+    <a href="/2020/05/12/%E8%B4%AA%E5%BF%83/">
+      贪心
     </a>
   </h2>
 
@@ -772,14 +732,6 @@
           
             
               
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>数据库</p>
-    </a>
-  </div>
-
 
             
           
@@ -815,24 +767,10 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>==Why MySQL==</strong></p>
-<ol>
-<li>在众多开源免费的关系型数据库系统中，MySQL有以下比较出众的优势：</li>
-<li>运行速度快</li>
-<li>易使用</li>
-<li>SQL语言支持</li>
-<li>移植性好</li>
-<li>功能丰富</li>
-<li>成本低廉
+        
       
     </div>
     
-      
-        <div class="button readmore">
-          <a href="/2020/05/12/shujuku/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
       
     
   </section>
@@ -855,8 +793,8 @@
         
           
   <h2 class="title">
-    <a href="/2020/05/12/JH/">
-      集合
+    <a href="/2020/05/12/erfen/">
+      erfen
     </a>
   </h2>
 
@@ -879,14 +817,6 @@
           
             
               
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Java/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Java</p>
-    </a>
-  </div>
-
 
             
           
@@ -922,21 +852,10 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong><em>==框架==</em></strong></p>
-<p>1、Collection是一个接口，是高度抽象出来的集合，它包含了集合的基本操作和属性。Collection包含了List和Set两大分支。<br>List是一个有序的队列，每一个元素都有它的索引。第一个元素的索引值是0。List的实现类有LinkedList, ArrayList, Vector, Stack。<br>Set是一个不允许有重复元素的集合。Set的实现类有HashSet和TreeSet。HashSet依赖于HashMap，它实际上是通过HashMap实现的；TreeSet依赖于TreeMap，它实际上是通过TreeMap实现的。</p>
-<p>2、Map是一个映射接口，即key-value键值对。Map中的每一个元素包含“一个key”和“key对应的value”。AbstractMap是个抽象类，它实现了Map接口中的大部分API。而HashMap，TreeMap，WeakHashMap都是继承于AbstractMap。Hashtable虽然继承于Dictionary，但它实现了Map接口。</p>
-<p>3、接下来，再看Iterator。它是遍历集合的工具，即我们通常通过Iterator迭代器来遍历集合。我们说Collection依赖于Iterator，是因为Collection的实现类都要实现iterator()函数，返回一个Iterator对象。ListIterator是专门为遍历List而存在的。</p>
-<p>4、再看Enumeration，它是JDK 1.0引入的抽象类。作用和Iterator一样，也是遍历集合；但是Enumeration的功能要比Iterator少。在上面的框图中，Enumeration只能在Hashtable, Vector, Stack中使用。</p>
-<p>5、最后，看Arrays和Collections。它们是操作数组、集合的两个工具类。</p>
+        
       
     </div>
     
-      
-        <div class="button readmore">
-          <a href="/2020/05/12/JH/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
       
     
   </section>
@@ -959,8 +878,8 @@
         
           
   <h2 class="title">
-    <a href="/2020/05/12/WL/">
-      网络
+    <a href="/2020/05/12/%E6%8E%92%E5%BA%8F/">
+      排序
     </a>
   </h2>
 
@@ -983,14 +902,6 @@
           
             
               
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>计算机网络</p>
-    </a>
-  </div>
-
 
             
           
@@ -1026,52 +937,10 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>TCP/IP 协议分层模型</strong></p>
-<p>物理层将二进制的0和1和电压高低，光的闪灭和电波的强弱信号进行转换</p>
-<p>链路层代表驱动</p>
-<p>网络层</p>
-<ul>
-<li>使用 IP 协议，IP 协议基于 IP 转发分包数据</li>
-<li>IP 协议是个不可靠协议，不会重发</li>
-<li>IP 协议发送失败会使用ICMP 协议通知失败</li>
-<li>ARP 解析 IP 中的 MAC 地址，MAC 地址由网卡出厂提供</li>
-<li>IP 还隐含链路层的功能，不管双方底层的链路层是啥，都能通信</li>
-</ul>
-<p>传输层</p>
-<ul>
-<li>TCP 协议面向有连接，能正确处理丢包，传输顺序错乱的问题，但是为了建立与断开连接，需要至少7次的发包收包，资源浪费</li>
-<li>UDP 面向无连接，不管对方有没有收到，如果要得到通知，需要通过应用层</li>
-<li>通用的 TCP 和 UDP 协议</li>
-</ul>
-<p>会话层以上分层</p>
-<ul>
-<li>TCP/IP 分层中，会话层，表示层，应用层集中在一起</li>
-<li>网络管理通过 SNMP 协议</li>
-</ul>
-<hr>
-<p><strong>三次握手：</strong></p>
-<ol>
-<li>客户端–发送带有SYN标志的数据包–一次握手–服务端</li>
-<li>服务端–发送带有SYN/ACK标志的数据包–二次握手–客户端</li>
-<li>客户端–发送带有带有ACK标志的数据包–三次握手–服务端</li>
-</ol>
-<p><strong>四次挥手：</strong></p>
-<ol>
-<li>客户端-发送一个FIN，用来关闭客户端到服务器的数据传送</li>
-<li>服务器-收到这个FIN，它发回一个ACK，确认序号为收到的序号加1 。和SYN一样，一个FIN将占用一个序号</li>
-<li>服务器-关闭与客户端的连接，发送一个FIN给客户端</li>
-<li>客户端-发回ACK报文确认，并将确认序号设置为收到序号加1</li>
-</ol>
-<hr>
+        
       
     </div>
     
-      
-        <div class="button readmore">
-          <a href="/2020/05/12/WL/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
       
     
   </section>
@@ -1094,8 +963,8 @@
         
           
   <h2 class="title">
-    <a href="/2020/05/11/Page/">
-      第一篇博客
+    <a href="/2020/05/12/%E5%9B%BE/">
+      图
     </a>
   </h2>
 
@@ -1118,14 +987,6 @@
           
             
               
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/hert/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>杂文</p>
-    </a>
-  </div>
-
 
             
           
@@ -1133,7 +994,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年5月11日</p>
+    <p>发布于：2020年5月12日</p>
   </a>
 </div>
 
@@ -1161,10 +1022,7 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="./images/41F215B9-261F-48B4-80B5-4E86E165259E.jpg" alt="enter description here"></p>
-<hr>
-<p>   <strong>Hello</strong>，这是我的第一篇<em>==博客==</em>！</p>
-
+        
       
     </div>
     
@@ -1190,8 +1048,8 @@
         
           
   <h2 class="title">
-    <a href="/2020/05/11/hello-world/">
-      Hello World
+    <a href="/2020/05/12/%E6%95%B0%E7%BB%84/">
+      数组
     </a>
   </h2>
 
@@ -1214,14 +1072,6 @@
           
             
               
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Hello/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Hello</p>
-    </a>
-  </div>
-
 
             
           
@@ -1229,7 +1079,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年5月11日</p>
+    <p>发布于：2020年5月12日</p>
   </a>
 </div>
 
@@ -1257,17 +1107,180 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2>
+        
       
     </div>
     
       
-        <div class="button readmore">
-          <a href="/2020/05/11/hello-world/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/05/12/%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+      字符串
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://Ai-guangnian.github.io" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/Ai-guangnian/Ai-guangnian.github.io/aa/OIP.jpg">
+    <p>Ai-guangnian</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年5月12日</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+
+            
+          
         </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/05/12/%E5%93%88%E5%B8%8C%E8%A1%A8/">
+      哈希表
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://Ai-guangnian.github.io" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/Ai-guangnian/Ai-guangnian.github.io/aa/OIP.jpg">
+    <p>Ai-guangnian</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年5月12日</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    
       
     
   </section>
@@ -1279,6 +1292,21 @@
     
   </section>
   
+    
+      <br>
+      <div class="prev-next">
+        
+        <p class="current">
+          1 / 3
+        </p>
+        
+          <a class="next" rel="next" href="/archives/2020/page/2/">
+            <section class="post next white-box shadow">
+              &nbsp;下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
+            </section>
+          </a>
+        
+      </div>
     
     <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
@@ -1778,5 +1806,12 @@
 
 
   <script>setLoadingBarProgress(100);</script>
+  <!--动态线条背景-->
+<script type="text/javascript"
+color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/click_show_text.js"></script>
+
 </body>
 </html>
